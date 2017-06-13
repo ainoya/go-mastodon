@@ -33,8 +33,9 @@ func TestRegisterApp(t *testing.T) {
 
 	// Status not ok.
 	_, err := RegisterApp(context.Background(), &AppConfig{
-		Server:       ts.URL,
-		RedirectURIs: "/",
+		Server:          ts.URL,
+		StreamingServer: ts.URL,
+		RedirectURIs:    "/",
 	})
 	if err == nil {
 		t.Fatalf("should be fail: %v", err)
@@ -42,7 +43,8 @@ func TestRegisterApp(t *testing.T) {
 
 	// Error in url.Parse
 	_, err = RegisterApp(context.Background(), &AppConfig{
-		Server: ":",
+		Server:          ":",
+		StreamingServer: ts.URL,
 	})
 	if err == nil {
 		t.Fatalf("should be fail: %v", err)
@@ -50,7 +52,8 @@ func TestRegisterApp(t *testing.T) {
 
 	// Error in json.NewDecoder
 	_, err = RegisterApp(context.Background(), &AppConfig{
-		Server: ts.URL,
+		Server:          ts.URL,
+		StreamingServer: ts.URL,
 	})
 	if err == nil {
 		t.Fatalf("should be fail: %v", err)

@@ -57,7 +57,7 @@ func (c *WSClient) streamingWS(ctx context.Context, stream, tag string) (chan Ev
 		params.Set("tag", tag)
 	}
 
-	u, err := changeWebSocketScheme(c.client.config.Server)
+	u, err := changeWebSocketScheme(c.client.config.StreamingServer)
 	if err != nil {
 		return nil, err
 	}

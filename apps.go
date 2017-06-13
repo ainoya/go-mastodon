@@ -12,8 +12,9 @@ import (
 // AppConfig is a setting for registering applications.
 type AppConfig struct {
 	http.Client
-	Server     string
-	ClientName string
+	Server          string
+	StreamingServer string
+	ClientName      string
 
 	// Where the user should be redirected after authorization (for no redirect, use urn:ietf:wg:oauth:2.0:oob)
 	RedirectURIs string

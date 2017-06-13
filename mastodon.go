@@ -22,10 +22,11 @@ import (
 
 // Config is a setting for access mastodon APIs.
 type Config struct {
-	Server       string
-	ClientID     string
-	ClientSecret string
-	AccessToken  string
+	Server          string
+	StreamingServer string
+	ClientID        string
+	ClientSecret    string
+	AccessToken     string
 }
 
 // Client is a API client for mastodon.

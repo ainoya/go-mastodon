@@ -85,7 +85,7 @@ func handleReader(q chan Event, r io.Reader) error {
 }
 
 func (c *Client) streaming(ctx context.Context, p string, params url.Values) (chan Event, error) {
-	u, err := url.Parse(c.config.Server)
+	u, err := url.Parse(c.config.StreamingServer)
 	if err != nil {
 		return nil, err
 	}

@@ -83,13 +83,13 @@ data: {"content": "foo"}
 	}))
 	defer ts.Close()
 
-	c := NewClient(&Config{Server: ":"})
+	c := NewClient(&Config{Server: ":", StreamingServer: ":"})
 	_, err := c.streaming(context.Background(), "", nil)
 	if err == nil {
 		t.Fatalf("should be fail: %v", err)
 	}
 
-	c = NewClient(&Config{Server: ts.URL})
+	c = NewClient(&Config{Server: ts.URL, StreamingServer: ts.URL})
 	ctx, cancel := context.WithCancel(context.Background())
 	time.AfterFunc(time.Second, cancel)
 	q, err := c.streaming(ctx, "", nil)
@@ -128,7 +128,7 @@ func TestDoStreaming(t *testing.T) {
 	}))
 	defer ts.Close()
 
-	c := NewClient(&Config{Server: ts.URL})
+	c := NewClient(&Config{Server: ts.URL, StreamingServer: ts.URL})
 
 	req, err := http.NewRequest(http.MethodGet, ts.URL, nil)
 	if err != nil {
@@ -179,7 +179,7 @@ data: {"content": "foo"}
 	}))
 	defer ts.Close()
 
-	c := NewClient(&Config{Server: ts.URL})
+	c := NewClient(&Config{Server: ts.URL, StreamingServer: ts.URL})
 	ctx, cancel := context.WithCancel(context.Background())
 	time.AfterFunc(time.Second, cancel)
 	q, err := c.StreamingUser(ctx)
@@ -226,10 +226,11 @@ data: {"content": "bar"}
 	defer ts.Close()
 
 	client := NewClient(&Config{
-		Server:       ts.URL,
-		ClientID:     "foo",
-		ClientSecret: "bar",
-		AccessToken:  "zoo",
+		Server:          ts.URL,
+		StreamingServer: ts.URL,
+		ClientID:        "foo",
+		ClientSecret:    "bar",
+		AccessToken:     "zoo",
 	})
 	ctx, cancel := context.WithCancel(context.Background())
 	q, err := client.StreamingPublic(ctx, true)
@@ -273,7 +274,7 @@ data: {"content": "foo"}
 	}))
 	defer ts.Close()
 
-	client := NewClient(&Config{Server: ts.URL})
+	client := NewClient(&Config{Server: ts.URL, StreamingServer: ts.URL})
 	ctx, cancel := context.WithCancel(context.Background())
 	time.AfterFunc(time.Second, cancel)
 	q, err := client.StreamingHashtag(ctx, "hashtag", true)

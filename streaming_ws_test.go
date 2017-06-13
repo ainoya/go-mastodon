@@ -14,7 +14,7 @@ func TestStreamingWSUser(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(wsMock))
 	defer ts.Close()
 
-	client := NewClient(&Config{Server: ts.URL}).NewWSClient()
+	client := NewClient(&Config{Server: ts.URL, StreamingServer: ts.URL}).NewWSClient()
 	ctx, cancel := context.WithCancel(context.Background())
 	q, err := client.StreamingWSUser(ctx)
 	if err != nil {
@@ -28,7 +28,7 @@ func TestStreamingWSPublic(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(wsMock))
 	defer ts.Close()
 
-	client := NewClient(&Config{Server: ts.URL}).NewWSClient()
+	client := NewClient(&Config{Server: ts.URL, StreamingServer: ts.URL}).NewWSClient()
 	ctx, cancel := context.WithCancel(context.Background())
 	q, err := client.StreamingWSPublic(ctx, false)
 	if err != nil {
@@ -42,7 +42,7 @@ func TestStreamingWSHashtag(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(wsMock))
 	defer ts.Close()
 
-	client := NewClient(&Config{Server: ts.URL}).NewWSClient()
+	client := NewClient(&Config{Server: ts.URL, StreamingServer: ts.URL}).NewWSClient()
 	ctx, cancel := context.WithCancel(context.Background())
 	q, err := client.StreamingWSHashtag(ctx, "zzz", true)
 	if err != nil {
@@ -138,13 +138,13 @@ func TestStreamingWS(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(wsMock))
 	defer ts.Close()
 
-	client := NewClient(&Config{Server: ":"}).NewWSClient()
+	client := NewClient(&Config{Server: ":", StreamingServer: ":"}).NewWSClient()
 	_, err := client.StreamingWSPublic(context.Background(), true)
 	if err == nil {
 		t.Fatalf("should be fail: %v", err)
 	}
 
-	client = NewClient(&Config{Server: ts.URL}).NewWSClient()
+	client = NewClient(&Config{Server: ts.URL, StreamingServer: ts.URL}).NewWSClient()
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()
 	q, err := client.StreamingWSPublic(ctx, true)
